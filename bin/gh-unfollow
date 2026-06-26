@@ -1,0 +1,33 @@
+#!/bin/sh
+# gh-unfollow — Bulk unfollow GitHub users
+# Entry point for npm/npx/yarn/pnpm/bun
+# Falls back to Python execution
+
+set -e
+
+# Determine script directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+MAIN_PY="${SCRIPT_DIR}/../src/main.py"
+
+# Check for Python
+PYTHON=""
+for cmd in python3 python py; do
+    if command -v "$cmd" >/dev/null 2>&1; then
+        PYTHON="$cmd"
+        break
+    fi
+done
+
+if [ -z "$PYTHON" ]; then
+    echo "Error: Python 3 is required but not found in PATH." >&2
+    echo "Install Python from https://python.org/downloads/" >&2
+    exit 1
+fi
+
+# Verify Python version
+"$PYTHON" -c "import sys; sys.exit(0 if sys.version_info >= (3, 8) else 1)" || {
+    echo "Error: Python 3.8+ required" >&2
+    exit 1
+}
+
+exec "$PYTHON" "$MAIN_PY" "$@"

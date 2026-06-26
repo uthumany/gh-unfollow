@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "gh-unfollow"
+version = "1.0.0"
+description = "Bulk unfollow GitHub users with smart rate limiting — clean up your following list fast"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Uthuman & Co", email = "dev@uthuman.com"}
+]
+keywords = [
+    "github",
+    "unfollow",
+    "bulk-unfollow",
+    "mass-unfollow",
+    "github-api",
+    "cli",
+    "followers",
+    "following-cleanup",
+    "github-tools",
+    "developer-tools",
+    "rate-limiting",
+    "cross-platform",
+    "zero-dependencies",
+    "batch-unfollow",
+    "github-following"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = []
+urls = {Homepage = "https://github.com/uthumany/gh-unfollow#readme", Repository = "https://github.com/uthumany/gh-unfollow.git", "Bug Tracker" = "https://github.com/uthumany/gh-unfollow/issues", Changelog = "https://github.com/uthumany/gh-unfollow/blob/main/CHANGELOG.md"}
+
+[project.scripts]
+gh-unfollow = "src.main:main"
+github-unfollow = "src.main:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

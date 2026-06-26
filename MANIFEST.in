@@ -1,0 +1,11 @@
+include pyproject.toml
+include setup.py
+include setup.cfg
+include README.md
+include LICENSE
+include CHANGELOG.md
+include .gitignore
+recursive-include src *.py
+recursive-include bin *
+recursive-include tests *.py
+recursive-include .github *

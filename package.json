@@ -1,0 +1,65 @@
+{
+  "name": "gh-unfollow",
+  "version": "1.0.0",
+  "description": "Bulk unfollow GitHub users with smart rate limiting — clean up your following list fast. Zero-dependency CLI tool.",
+  "keywords": [
+    "github",
+    "unfollow",
+    "bulk-unfollow",
+    "mass-unfollow",
+    "github-api",
+    "cli",
+    "followers",
+    "following-cleanup",
+    "github-tools",
+    "developer-tools",
+    "rate-limiting",
+    "cross-platform",
+    "zero-dependencies",
+    "batch-unfollow",
+    "github-following"
+  ],
+  "homepage": "https://github.com/uthumany/gh-unfollow#readme",
+  "bugs": {
+    "url": "https://github.com/uthumany/gh-unfollow/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uthumany/gh-unfollow.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Uthuman & Co",
+    "email": "dev@uthuman.com",
+    "url": "https://uthuman.com"
+  },
+  "main": "src/main.py",
+  "bin": {
+    "gh-unfollow": "./bin/gh-unfollow",
+    "github-unfollow": "./bin/gh-unfollow"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "MANIFEST.in",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "start": "python src/main.py",
+    "test": "python -m pytest tests/ -v",
+    "unfollow": "python src/main.py"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ]
+}
