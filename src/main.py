@@ -28,7 +28,7 @@ import urllib.error
 import urllib.request
 from datetime import timedelta
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 LOGFILE = os.path.join(tempfile.gettempdir(), "gh-unfollow.log")
 DRY_RUN = False

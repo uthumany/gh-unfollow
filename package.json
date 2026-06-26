@@ -1,6 +1,6 @@
 {
   "name": "gh-unfollow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bulk unfollow GitHub users with smart rate limiting — clean up your following list fast. Zero-dependency CLI tool.",
   "keywords": [
     "github",
@@ -35,8 +35,8 @@
   },
   "main": "src/main.py",
   "bin": {
-    "gh-unfollow": "./bin/gh-unfollow",
-    "github-unfollow": "./bin/gh-unfollow"
+    "gh-unfollow": "bin/gh-unfollow",
+    "github-unfollow": "bin/gh-unfollow"
   },
   "files": [
     "bin/",
