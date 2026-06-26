@@ -2,10 +2,32 @@
 
 All notable changes to `gh-unfollow` will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+---
+
+## [2.0.0] — 2026-06-27
+
+### Added
+- 🎨 **Premium terminal UI** with Rich library (optional — falls back to basic mode)
+- 🖼️ ASCII FIGlet banner with cyan theming
+- 📊 Live progress dashboard with animated spinners, progress bar, elapsed/ETA
+- 🎨 Color-coded output: green (success), yellow (warning/rate-limit), red (error), cyan (banner)
+- ⏳ Animated cooldown countdown bar for rate-limit and batch pauses
+- 🟣 Dry-run mode with distinct magenta/purple theme and warnings
+- 🛡️ `--whitelist` flag to protect specific users from unfollow
+- 🔧 `--no-rich` flag to force basic terminal mode
+- 🎯 `--no-color` flag to disable all ANSI colors
+- 📦 `pip install gh-unfollow[ui]` for premium UI dependencies
+
+### Changed
+- Complete UI rewrite with modular `src/ui.py`
+- Version bumped to 2.0.0 (breaking visual change, API unchanged)
 
 ---
+
+## [1.0.1] — 2026-06-27
+
+### Fixed
+- Fixed npm bin paths for proper global install
 
 ## [1.0.0] — 2026-06-27
 
@@ -15,11 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔄 Auto-retry on HTTP 403 rate limit errors
 - 👁️ `--dry-run` mode to preview unfollows without executing
 - 📊 Real-time progress logging to stdout and log file
-- 🔐 Multiple auth methods: `--token` flag, `GITHUB_TOKEN` env var, token file, git credential store
-- 🖥️ Cross-platform support (Windows, macOS, Linux)
-- 📦 Zero external dependencies (Python stdlib only)
+- 🔐 Multiple auth methods
+- 🖥️ Cross-platform support
+- 📦 Zero external dependencies
 - 📦 Installable via npm, yarn, pnpm, bun, pip, uv
-- 🧪 Comprehensive test suite with unit tests
-- 📖 Full documentation: README, CHANGELOG, CONTRIBUTING guide
-- 🏷️ GitHub issue and PR templates
-- 🎨 ASCII banner for terminal aesthetic

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gh-unfollow"
-version = "1.0.1"
-description = "Bulk unfollow GitHub users with smart rate limiting — clean up your following list fast"
+version = "2.0.0"
+description = "Bulk unfollow GitHub users with premium terminal UI and smart rate limiting"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
@@ -54,6 +54,7 @@ github-unfollow = "src.main:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+ui = ["rich>=13.0"]
 
 [tool.setuptools.packages.find]
 where = ["."]

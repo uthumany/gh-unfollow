@@ -1,7 +1,7 @@
 {
   "name": "gh-unfollow",
-  "version": "1.0.1",
-  "description": "Bulk unfollow GitHub users with smart rate limiting — clean up your following list fast. Zero-dependency CLI tool.",
+  "version": "2.0.0",
+  "description": "Bulk unfollow GitHub users with premium terminal UI and smart rate limiting. Zero-dependency CLI tool (rich optional).",
   "keywords": [
     "github",
     "unfollow",

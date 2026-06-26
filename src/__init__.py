@@ -1,23 +1,29 @@
 """gh-unfollow — Bulk unfollow GitHub users with smart rate limiting.
 
 CLI tool to mass-unfollow GitHub users. Features:
-- Configurable unfollow target count
-- Intelligent rate limiting with batch pauses
+- Premium terminal UI with animated dashboard (when rich is installed)
+- ASCII FIGlet banner
+- Live progress bar with ETA
+- Color-coded output (green/yellow/red/cyan)
+- Rate-limit cooldown countdown bar
+- Dry-run mode with distinct magenta theme
+- Whitelist support (skip specific users)
+- Configurable unfollow target, delays, and batch sizes
 - Auto-retry on rate limit errors
-- Progress logging with real-time output
 - Cross-platform (Windows, macOS, Linux)
-- Zero external dependencies (stdlib only)
+- Zero external dependencies (rich is optional for premium UI)
 - Multiple auth methods (env var, file, git credential)
 
 Usage:
     gh-unfollow [OPTIONS]
 
 Examples:
-    gh-unfollow                          # Unfollow 100 users (default)
-    gh-unfollow -n 500                   # Unfollow 500 users
-    gh-unfollow -n 1000 --delay 1.5      # Faster unfollows
-    gh-unfollow --dry-run                # Preview who you'd unfollow
+    gh-unfollow                          # Unfollow 100 users
+    gh-unfollow -n 500                   # Unfollow 500
+    gh-unfollow --dry-run                # Preview mode
+    gh-unfollow --whitelist user1,user2  # Skip specific users
+    gh-unfollow --no-rich                # Basic terminal mode
     gh-unfollow --token ghp_xxxx         # Provide token directly
 """
 
-__version__ = "1.0.1"
+__version__ = "2.0.0"
