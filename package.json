@@ -1,6 +1,6 @@
 {
   "name": "gh-unfollow",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Bulk unfollow GitHub users with premium terminal UI and smart rate limiting. Features: whitelist, inactive cleanup, non-mutual, interactive, backup/restore.",
   "keywords": [
     "github",
