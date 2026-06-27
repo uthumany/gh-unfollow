@@ -67,12 +67,9 @@ def spinner_char() -> str:
 # ─── FIGlet Banner Art ─────────────────────────────────────────────────────
 
 BANNER_LINES = [
-    "  ██████╗ ██╗  ██╗    ██╗   ██╗███╗   ██╗███████╗ ██████╗ ██╗     ██╗      ██████╗ ██╗    ██╗",
-    " ██╔════╝ ██║  ██║    ██║   ██║████╗  ██║██╔════╝██╔═══██╗██║     ██║     ██╔═══██╗██║    ██║",
-    " ██║  ███╗███████║    ██║   ██║██╔██╗ ██║█████╗  ██║   ██║██║     ██║     ██║   ██║██║ █╗ ██║",
-    " ██║   ██║██╔══██║    ██║   ██║██║╚██╗██║██╔══╝  ██║   ██║██║     ██║     ██║   ██║██║███╗██║",
-    " ╚██████╔╝██║  ██║    ╚██████╔╝██║ ╚████║██║     ╚██████╔╝███████╗███████╗╚██████╔╝╚███╔███╔╝",
-    "  ╚═════╝ ╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚══════╝╚══════╝ ╚═════╝  ╚══╝╚══╝ ",
+    "  ▄▄▄▄▄▄▄ ▄▄  ▄▄    ▄▄   ▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄ ▄▄    ▄▄     ▄▄▄▄▄▄▄ ▄▄  ▄▄",
+    "  ▄▄▀▀▀▀▀ ▄▄▀▀▄▄    ▄▄▄▄▄▄▄▀▀▀▀▀   ▄▄▀▀▀▀▀ ▄▄▀▀▄▄     ▄▄▀▀▀▀▀ ▄▄▀▀▄▄",
+    "  ▀▀▀▀▀▀▀ ▀▀  ▀▀    ▀▀▀▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀ ▀▀  ▀▀     ▀▀▀▀▀▀▀ ▀▀  ▀▀",
 ]
 
 DRY_RUN_BANNER_TOP = "╔═════════════════════════════════════════════════════════════════════════╗"
@@ -151,7 +148,7 @@ class UI:
 
         if self.rich:
             banner = Text()
-            styles = ["bold cyan", "cyan", "cyan", "cyan", "bold cyan", "dim cyan"]
+            styles = ["bold cyan", "cyan", "dim cyan"]
             for i, line in enumerate(BANNER_LINES):
                 banner.append(line + "\n", style=styles[i])
             banner.append(f"                {version_str}", style="dim")
@@ -159,7 +156,7 @@ class UI:
         else:
             lines = BANNER_LINES[:]
             for i in range(len(lines)):
-                style = Colors.CYAN + (Colors.BOLD if i in (0, 4) else "")
+                style = Colors.CYAN + (Colors.BOLD if i == 0 else "")
                 lines[i] = f"{style}{lines[i]}{Colors.RESET}"
             lines.append(f"                {Colors.DIM}{version_str}{Colors.RESET}")
             print("\n".join(lines), flush=True)
