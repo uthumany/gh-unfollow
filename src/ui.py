@@ -64,13 +64,20 @@ def spinner_char() -> str:
     return c
 
 
-# ─── FIGlet Banner Art ─────────────────────────────────────────────────────
+# ─── Banner Art (Responsive, Skyblue + Green) ──────────────────────────────
 
 BANNER_LINES = [
-    "  ▄▄▄▄▄▄▄ ▄▄  ▄▄    ▄▄   ▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄ ▄▄    ▄▄     ▄▄▄▄▄▄▄ ▄▄  ▄▄",
-    "  ▄▄▀▀▀▀▀ ▄▄▀▀▄▄    ▄▄▄▄▄▄▄▀▀▀▀▀   ▄▄▀▀▀▀▀ ▄▄▀▀▄▄     ▄▄▀▀▀▀▀ ▄▄▀▀▄▄",
-    "  ▀▀▀▀▀▀▀ ▀▀  ▀▀    ▀▀▀▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀ ▀▀  ▀▀     ▀▀▀▀▀▀▀ ▀▀  ▀▀",
+    "   ____ _  _   _  _ _  _ ____ ____ _    _    ____ _ _ _ ",
+    "   | __ |__|   |  | |\\ | |___ |  | |    |    |  | | | | ",
+    "   |__] |  |   |__| | \\| |    |__| |___ |___ |__| |_|_| ",
 ]
+
+BANNER_WIDTH = max(len(line) for line in BANNER_LINES)  # ~57 chars
+
+
+def _get_banner_frame(width: int) -> str:
+    """Generate the top/bottom frame line matching terminal width."""
+    return "─" * min(width, 100)
 
 DRY_RUN_BANNER = "╔══ DRY RUN MODE — no unfollows will be performed ══╗"
 
@@ -140,23 +147,43 @@ class UI:
     # ═══════════════════════════════════════════════════════════════════════
 
     def show_banner(self) -> None:
-        """Display the FIGlet startup banner."""
+        """Display the responsive ASCII banner with skyblue + green colors."""
         version_str = f"v{self.version}  |  github.com/uthumany/gh-unfollow"
 
+        # Get terminal width for responsive centering
+        try:
+            term_width = os.get_terminal_size().columns
+        except (OSError, ValueError):
+            term_width = 80
+
+        frame = _get_banner_frame(term_width)
+        pad = max(0, (term_width - BANNER_WIDTH) // 2)
+
         if self.rich:
+            from rich.text import Text
+
             banner = Text()
-            styles = ["bold cyan", "cyan", "dim cyan"]
-            for i, line in enumerate(BANNER_LINES):
-                banner.append(line + "\n", style=styles[i])
+            # Top frame in green
+            banner.append(" " * pad + frame + "\n", style="green")
+            banner.append("\n")
+            # Banner text in skyblue, centered
+            for line in BANNER_LINES:
+                banner.append(" " * pad + line + "\n", style="bold sky_blue1")
+            banner.append("\n")
+            # Bottom frame in green
+            banner.append(" " * pad + frame + "\n", style="green")
+            banner.append("\n")
             banner.append(f"                {version_str}", style="dim")
             self._console.print(banner)
         else:
-            lines = BANNER_LINES[:]
-            for i in range(len(lines)):
-                style = Colors.CYAN + (Colors.BOLD if i == 0 else "")
-                lines[i] = f"{style}{lines[i]}{Colors.RESET}"
-            lines.append(f"                {Colors.DIM}{version_str}{Colors.RESET}")
-            print("\n".join(lines), flush=True)
+            pad_str = " " * pad
+            print(f"{Colors.GREEN}{pad_str}{frame}{Colors.RESET}")
+            print()
+            for line in BANNER_LINES:
+                print(f"{Colors.CYAN}{Colors.BOLD}{pad_str}{line}{Colors.RESET}")
+            print()
+            print(f"{Colors.GREEN}{pad_str}{frame}{Colors.RESET}")
+            print(f"                {Colors.DIM}{version_str}{Colors.RESET}", flush=True)
 
         if self.dry_run:
             self._print_dry_run_banner()
