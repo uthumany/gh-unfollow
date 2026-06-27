@@ -35,7 +35,7 @@ if __name__ == "__main__" and __package__ is None:
 
 from src.ui import UI, check_rich_available
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 LOGFILE = os.path.join(tempfile.gettempdir(), "gh-unfollow.log")
 
@@ -288,7 +288,7 @@ def main() -> None:
         return
 
     # Start dashboard
-    ui.start_dashboard(target)
+    ui.start_dashboard(target, "?")
 
     unfollowed = 0
     skipped = 0
@@ -328,7 +328,7 @@ def main() -> None:
             if args.dry_run:
                 unfollowed += 1
                 ui.log_unfollow(unfollowed, target, name, rem)
-                ui.update_dashboard(unfollowed, f"[SIM] {name}")
+                ui.update_dashboard(unfollowed, f"[SIM] {name}", rem)
                 file_log(f"SIM {name}")
                 continue
 
@@ -338,7 +338,7 @@ def main() -> None:
                 unfollowed += 1
                 failures = 0
                 ui.log_unfollow(unfollowed, target, name, rem)
-                ui.update_dashboard(unfollowed, name)
+                ui.update_dashboard(unfollowed, name, rem)
                 file_log(f"OK {name} (limit: {rem})")
             elif code == 403:
                 ui.log_rate_limit(0)
@@ -348,7 +348,7 @@ def main() -> None:
                 if code2 == 204:
                     unfollowed += 1
                     ui.log_unfollow(unfollowed, target, name, rem2)
-                    ui.update_dashboard(unfollowed, name)
+                    ui.update_dashboard(unfollowed, name, rem2)
                     file_log(f"OK {name} (retry)")
             elif code == 404:
                 file_log(f"NOP {name} (already not following)")
