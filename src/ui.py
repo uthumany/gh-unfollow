@@ -72,10 +72,7 @@ BANNER_LINES = [
     "  ▀▀▀▀▀▀▀ ▀▀  ▀▀    ▀▀▀▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀ ▀▀  ▀▀     ▀▀▀▀▀▀▀ ▀▀  ▀▀",
 ]
 
-DRY_RUN_BANNER_TOP = "╔═════════════════════════════════════════════════════════════════════════╗"
-DRY_RUN_BANNER_MID = "║                        DRY RUN MODE ACTIVE                           ║"
-DRY_RUN_BANNER_BOT = "║              No actual unfollows will be performed.                    ║"
-DRY_RUN_BANNER_END = "╚═════════════════════════════════════════════════════════════════════════╝"
+DRY_RUN_BANNER = "╔══ DRY RUN MODE — no unfollows will be performed ══╗"
 
 
 # ─── Progress Bar Helper ───────────────────────────────────────────────────
@@ -168,16 +165,12 @@ class UI:
         if self.rich:
             self._console.print()
             self._console.print(Panel(
-                "[bold magenta]DRY RUN MODE ACTIVE[/bold magenta]\n"
-                "[dim]No actual unfollows will be performed.[/dim]",
-                border_style="magenta", box=box.DOUBLE,
+                "[bold magenta]DRY RUN — no unfollows will be performed[/bold magenta]",
+                border_style="magenta", box=box.ROUNDED,
             ))
         else:
             mc, rs = Colors.MAGENTA + Colors.BOLD, Colors.RESET
-            print(f"\n{mc}{DRY_RUN_BANNER_TOP}{rs}")
-            print(f"{mc}{DRY_RUN_BANNER_MID}{rs}")
-            print(f"{mc}{DRY_RUN_BANNER_BOT}{rs}")
-            print(f"{mc}{DRY_RUN_BANNER_END}{rs}\n", flush=True)
+            print(f"\n{mc}{DRY_RUN_BANNER}{rs}\n", flush=True)
 
     # ═══════════════════════════════════════════════════════════════════════
     #  MULTI-PANEL DASHBOARD
@@ -293,7 +286,7 @@ class UI:
         limit_str = f"{self._rate_limit}"
 
         frame = []
-        frame.append(f"  {cy}┌── Status ──────────────────────────────────────────┐{rs}")
+        frame.append(f"  {cy}┌── Status ────────────────────────┐{rs}")
         frame.append(f"  {cy}│{rs}  {bo}{bar}{rs}  {percent_str}    "
                      f"Unfollowed: {gr}{self._completed}{rs}/{self._target}    "
                      f"Limit: {ye}{limit_str}{rs}  {cy}│{rs}")
@@ -302,7 +295,7 @@ class UI:
         if self._recent_logs:
             last = list(self._recent_logs)[-1]
             frame.append(f"  {cy}│{rs}  {di}{last}{rs}")
-        frame.append(f"  {cy}└{'─' * 52}┘{rs}")
+        frame.append(f"  {cy}└{'─' * 33}┘{rs}")
 
         # Overwrite previous frame with ANSI cursor-up
         if self._last_frame_lines:
@@ -434,15 +427,15 @@ class UI:
                 f"[bold green]DONE[/bold green] — "
                 f"{'Would have ' if self.dry_run else ''}unfollowed "
                 f"[bold]{unfollowed}[/bold] users in [yellow]{elapsed}[/yellow]",
-                border_style="green", box=box.DOUBLE,
+                border_style="green", box=box.ROUNDED,
             ))
         else:
-            print(f"\n{'=' * 50}")
+            print(f"\n{'=' * 30}")
             if self.dry_run:
                 print(f"  DONE: Would have unfollowed {unfollowed} users")
             else:
                 print(f"  DONE: Unfollowed {unfollowed} users in {elapsed}")
-            print(f"{'=' * 50}", flush=True)
+            print(f"{'=' * 30}", flush=True)
 
     # ═══════════════════════════════════════════════════════════════════════
     #  ANIMATED COOLDOWN COUNTDOWN
