@@ -16,8 +16,7 @@ class TestTokenResolution(unittest.TestCase):
 
     def test_cli_arg_priority(self):
         """--token flag should take highest priority."""
-        os.environ.pop("GITHUB_TOKEN", None)
-        with patch("sys.exit"):
+        with patch.dict(os.environ, {"GITHUB_TOKEN": "different_env_token"}):
             token = main.read_token("ghp_test123")
         self.assertEqual(token, "ghp_test123")
 
@@ -29,8 +28,11 @@ class TestTokenResolution(unittest.TestCase):
         self.assertEqual(token, "ghp_envtoken")
 
     def test_no_token_found(self):
-        """Test is environment-dependent (skipped if git credential has token)."""
-        self.skipTest("Environment has git credential — tested manually via --token '' flow")
+        """Missing credentials fail without depending on local auth state."""
+        with patch.dict(os.environ, {}, clear=True), patch("main.os.path.exists", return_value=False), patch("subprocess.run", return_value=MagicMock(stdout="")), patch("builtins.print"):
+            with self.assertRaises(SystemExit) as error:
+                main.read_token()
+        self.assertEqual(error.exception.code, 1)
 
 
 class TestEstimateTime(unittest.TestCase):
