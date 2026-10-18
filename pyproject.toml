@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gh-unfollow"
-version = "2.3.0"
+version = "2.3.1"
 description = "Bulk unfollow GitHub users with premium terminal UI and smart rate limiting"
 readme = "README.md"
 license = {text = "MIT"}
@@ -35,8 +35,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -44,9 +42,9 @@ classifiers = [
     "Topic :: Software Development :: Version Control :: Git",
     "Topic :: Utilities",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = []
-urls = {Homepage = "https://github.com/uthumany/gh-unfollow#readme", Repository = "https://github.com/uthumany/gh-unfollow.git", "Bug Tracker" = "https://github.com/uthumany/gh-unfollow/issues", Changelog = "https://github.com/uthumany/gh-unfollow/blob/main/CHANGELOG.md"}
+urls = {Homepage = "https://github.com/uthumany/gh-unfollow#readme", Repository = "https://github.com/uthumany/gh-unfollow.git", "Bug Tracker" = "https://github.com/uthumany/gh-unfollow/issues", Changelog = "https://github.com/uthumany/gh-unfollow/blob/master/CHANGELOG.md"}
 
 [project.scripts]
 gh-unfollow = "src.main:main"

@@ -116,6 +116,12 @@ class UI:
         self.version = version
         self.dry_run = dry_run
         self.no_color = no_color
+        # Each UI owns its palette; a plain instance must not disable later UIs.
+        self.colors = type("Palette", (), {
+            name: "" if no_color else value
+            for name, value in vars(Colors).items()
+            if not name.startswith("_") and isinstance(value, str)
+        })
         self.whitelist = set(whitelist or [])
         self.rich = RICH_AVAILABLE and not no_color
         self.tty = sys.stdout.isatty()
@@ -136,11 +142,6 @@ class UI:
 
         if self.rich:
             self._console = Console(force_terminal=True, color_system="standard")
-        elif no_color:
-            # Kill ANSI escape codes
-            for attr in dir(Colors):
-                if not attr.startswith("_") and isinstance(getattr(Colors, attr), str):
-                    setattr(Colors, attr, "")
 
     # ═══════════════════════════════════════════════════════════════════════
     #  BANNER
@@ -177,13 +178,13 @@ class UI:
             self._console.print(banner)
         else:
             pad_str = " " * pad
-            print(f"{Colors.GREEN}{pad_str}{frame}{Colors.RESET}")
+            print(f"{self.colors.GREEN}{pad_str}{frame}{self.colors.RESET}")
             print()
             for line in BANNER_LINES:
-                print(f"{Colors.CYAN}{Colors.BOLD}{pad_str}{line}{Colors.RESET}")
+                print(f"{self.colors.CYAN}{self.colors.BOLD}{pad_str}{line}{self.colors.RESET}")
             print()
-            print(f"{Colors.GREEN}{pad_str}{frame}{Colors.RESET}")
-            print(f"                {Colors.DIM}{version_str}{Colors.RESET}", flush=True)
+            print(f"{self.colors.GREEN}{pad_str}{frame}{self.colors.RESET}")
+            print(f"                {self.colors.DIM}{version_str}{self.colors.RESET}", flush=True)
 
         if self.dry_run:
             self._print_dry_run_banner()
@@ -196,7 +197,7 @@ class UI:
                 border_style="magenta", box=box.ROUNDED,
             ))
         else:
-            mc, rs = Colors.MAGENTA + Colors.BOLD, Colors.RESET
+            mc, rs = self.colors.MAGENTA + self.colors.BOLD, self.colors.RESET
             print(f"\n{mc}{DRY_RUN_BANNER}{rs}\n", flush=True)
 
     # ═══════════════════════════════════════════════════════════════════════
@@ -307,7 +308,7 @@ class UI:
         bar = _make_bar(progress, 30)
         percent_str = f"{progress:.0f}%"
 
-        cy, rs, bo, di, gr, ye = Colors.CYAN, Colors.RESET, Colors.BOLD, Colors.DIM, Colors.GREEN, Colors.YELLOW
+        cy, rs, bo, di, gr, ye = self.colors.CYAN, self.colors.RESET, self.colors.BOLD, self.colors.DIM, self.colors.GREEN, self.colors.YELLOW
         spin = spinner_char()
         action_text = self._current_action or "Fetching..."
         limit_str = f"{self._rate_limit}"
@@ -411,9 +412,9 @@ class UI:
                 f"[dim](limit: {rate_limit})[/dim]"
             )
         else:
-            c = Colors.MAGENTA if self.dry_run else Colors.GREEN
-            icon = f"{c}◇{Colors.RESET}" if self.dry_run else f"{c}✔{Colors.RESET}"
-            print(f"  {icon} [{n}/{total}] {action} @{name}  {Colors.DIM}(limit: {rate_limit}){Colors.RESET}", flush=True)
+            c = self.colors.MAGENTA if self.dry_run else self.colors.GREEN
+            icon = f"{c}◇{self.colors.RESET}" if self.dry_run else f"{c}✔{self.colors.RESET}"
+            print(f"  {icon} [{n}/{total}] {action} @{name}  {self.colors.DIM}(limit: {rate_limit}){self.colors.RESET}", flush=True)
 
         # Add to recent logs ring
         self._recent_logs.append(f"✔ {action} @{name}")
@@ -422,26 +423,26 @@ class UI:
         if self.rich:
             self._console.print(f"  [yellow]⚠[/yellow] Skipped [bold white]@{name}[/bold white] [dim]({reason})[/dim]")
         else:
-            print(f"  {Colors.YELLOW}⚠{Colors.RESET} Skipped @{name} {Colors.DIM}({reason}){Colors.RESET}", flush=True)
+            print(f"  {self.colors.YELLOW}⚠{self.colors.RESET} Skipped @{name} {self.colors.DIM}({reason}){self.colors.RESET}", flush=True)
         self._recent_logs.append(f"⚠ Skipped @{name}")
 
     def log_rate_limit(self, remaining: int) -> None:
         if self.rich:
             self._console.print(f"  [yellow]![/yellow] Rate limit low ({remaining}) — cooling down...")
         else:
-            print(f"  {Colors.YELLOW}!{Colors.RESET} Rate limit low ({remaining}) — cooling down...", flush=True)
+            print(f"  {self.colors.YELLOW}!{self.colors.RESET} Rate limit low ({remaining}) — cooling down...", flush=True)
 
     def log_error(self, msg: str) -> None:
         if self.rich:
             self._console.print(f"  [red]✗[/red] {msg}")
         else:
-            print(f"  {Colors.RED}✗{Colors.RESET} {msg}", flush=True)
+            print(f"  {self.colors.RED}✗{self.colors.RESET} {msg}", flush=True)
 
     def log_warn(self, msg: str) -> None:
         if self.rich:
             self._console.print(f"  [yellow]![/yellow] {msg}")
         else:
-            print(f"  {Colors.YELLOW}!{Colors.RESET} {msg}", flush=True)
+            print(f"  {self.colors.YELLOW}!{self.colors.RESET} {msg}", flush=True)
 
     # ═══════════════════════════════════════════════════════════════════════
     #  FINAL SUMMARY
@@ -485,12 +486,12 @@ class UI:
                     time.sleep(1)
                     p.update(task, advance=1)
         else:
-            print(f"\n  {Colors.YELLOW}⏳ {reason}. Cooling down...{Colors.RESET}")
+            print(f"\n  {self.colors.YELLOW}⏳ {reason}. Cooling down...{self.colors.RESET}")
             bar_width = 35
             for i in range(seconds, 0, -1):
                 filled = max(0, int(bar_width * (seconds - i) / seconds))
                 bar = "\u2588" * filled + "\u2591" * (bar_width - filled)
-                print(f"\r  [{Colors.YELLOW}{bar}{Colors.RESET}] {i}s remaining ", end="", flush=True)
+                print(f"\r  [{self.colors.YELLOW}{bar}{self.colors.RESET}] {i}s remaining ", end="", flush=True)
                 time.sleep(1)
             print("\n", flush=True)
 
