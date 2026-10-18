@@ -37,7 +37,7 @@ if __name__ == "__main__" and __package__ is None:
 
 from src.ui import UI, check_rich_available, Colors
 
-__version__ = "2.3.0"
+__version__ = "2.3.1"
 
 LOGFILE = os.path.join(tempfile.gettempdir(), "gh-unfollow.log")
 

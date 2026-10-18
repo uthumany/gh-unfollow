@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.1] - 2026-10-18
+
+### Fixed
+- Snapshot the complete following list before selection or mutation; count only eligible users.
+- Fail closed on incomplete API reads, invalid responses, permission errors and network failures.
+- Respect inactivity thresholds while keeping accounts with unknown public activity.
+- Validate backup data, write backups atomically and honor restore dry-runs.
+- Share paced execution across modes and bound genuine rate-limit retries.
+- Use a cross-platform Node launcher and clean npm package contents.
+
+### Compatibility
+- Python 3.10+ is required; Node.js 14+ is required for the npm launcher.
+- No live follow/unfollow mutation has been validated with the connected credential.
+
+
 All notable changes to `gh-unfollow` will be documented in this file.
 
 ---
